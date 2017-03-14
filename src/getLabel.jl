@@ -1,15 +1,14 @@
-function getLabel(args...;Tree::Array{SubString{ASCIIString},1}=[],
+function getLabel(args...;Tree::Array{SubString{String},1}=[],
 	Start::Int =Int[],
-	stop_char::Array{ASCIIString,1}=[])
+	stop_char::Array{String,1}=[])
 
-    label = String[]
+  label = String[]
 	u = 0
-	while Tree[u+Start] in stop_char ==false
+	while countnz(Tree[u+Start] .== stop_char) ==0
 		u=u+1
-		label = join(Tree[[0:1:(u-1)]+Start])
+		label = join(Tree[Start:(u-1+Start)])
 	end
-    labelStart = (label,u+Start)
+  labelStart = (label,u+Start)
 	labelStart = Dict(zip(["label","end"], labelStart))
 	return labelStart
 end
-
