@@ -168,7 +168,7 @@ function GUniFrac(args...; otuTableFile = "",
             if VAW==true
                 ind2 = []
                 append!(ind2, find(all(mi .!= mt,2)))
-                w = br_len2 .* (cum1 + cum2) ./ sqrt(mi .* (mt - mi))
+                w = br_len2 .* (cum1 + cum2) ./ sqrt(abs(mi .* (mt - mi)))
                 #w = br_len2 .* (cum1 +cum2) ^ alpha[k]
                 unifracs["d_VAW"][i, j] = unifracs["d_VAW"][j,i] = sum(diff[ind2].*w[ind2])/sum(w[ind2])
             end
