@@ -1,0 +1,11 @@
+site_name: PhylogeneticDistance.jl
+site_description: 'Introduction to Julia Package PhylogeneticDistance.jl'
+site_author: 'Jing Zhai'
+site_url: 'http://phylogeneticdistancejl.readthedocs.io/en/latest/'
+pages:
+    - Home: index.md
+    - Installation: installation.md
+    - Dataformats: dataformats.md
+    - Usage: usage.md
+    - Examples: examples.md
+theme: readthedocs

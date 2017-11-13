@@ -2,7 +2,7 @@
 
 To install _PhylogeneticDistance.jl_, open up Julia and then type
 
-```Julia
+```julia
 julia> Pkg.update()
 julia> Pkg.clone("https://github.com/JingZhai63/PhylogeneticDistance.jl.git")
 ```
