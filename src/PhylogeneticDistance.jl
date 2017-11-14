@@ -1,6 +1,7 @@
-module PhylogeneticDistance
+module PhylogeneticDistance.jl
 
 import StatsBase
+using StatsBase
 
 export
        readNewick,
@@ -13,8 +14,9 @@ export
        reorderPhylo,
        DropTip,
        isRooted,
-       GUniFrac,
-       KernelMatrix
+       GUniFrac
+       # ,
+#       KernelMatrix
 
 include("readNewick.jl")
 include("getLabel.jl")
@@ -24,8 +26,9 @@ include("foo_reorder.jl")
 include("bar_reorder.jl")
 include("neworder_phylo.jl")
 include("reorderPhylo.jl")
+include("isRooted.jl")
 include("DropTip.jl")
 include("GUniFrac.jl")
-include("KernelMatrix.jl")
+# include("KernelMatrix.jl")
 
 end

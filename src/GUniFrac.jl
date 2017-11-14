@@ -5,19 +5,9 @@
 #  # composition with environmental covariates using generalized
 #  # UniFrac distances.
 #  ###############################################################
-using StatsBase
-function isRooted(args...; phy=thetree)
-	# if typeof(phy) != Phylo
-	# 	 error("isRooted:wrongtpe\n", "# object phy is not class Phylo")
-	# end
-	if countmap(phy["edge"][:,1])[length(phy["tip_label"]) + 1] > 2
-		false
-	else true
-	end
-end
 
 function GUniFrac(args...; otuTableFile = "",
-	phy=thetree, alpha::Array{Float64,1} = Float64[],VAW=false)
+	phy = thetree, alpha::Array{Float64,1} = Float64[],VAW::Bool = false)
 
     if isRooted(phy = phy) == false
     	error("isRooted:wrongtpe\n", "# Rooted phylogenetic tree required!")
@@ -28,46 +18,46 @@ function GUniFrac(args...; otuTableFile = "",
     	error("GUniFrac:NoOTUtables\n", "# need to provide OTU count file");
     else
     	otuTable = readdlm(otuTableFile,',')
-    	otuTableMatrix = otuTable[2:end,1:end]
+    	otuTableMatrix = otuTable[2:end, 1:end]
     	otuTableMatrix = convert(Array{Float64, 2}, otuTableMatrix);
     end
 
-    row_sum = sum(otuTableMatrix,2)
+    row_sum = sum(otuTableMatrix, 2)
     #row_sum[1:10,:]=0.0
     zeroIndex = vec(row_sum[:,1]).==0.0
     otu_tab = otuTableMatrix
-    otu_tab[zeroIndex.==false,:] = otuTableMatrix[zeroIndex.==false,:] ./ row_sum[zeroIndex.==false,:]
-    otu_tab[zeroIndex.==true,:] = 0.0
+    otu_tab[zeroIndex.==false, :] = otuTableMatrix[zeroIndex .== false, :] ./ row_sum[zeroIndex.==false,:]
+    otu_tab[zeroIndex.==true, :] = 0.0
     n = size(otu_tab)[1] # nrows
 
     # Construct the returning array
     # d_UW: unweighted UniFrac, d_VAW: weighted UniFrac
     function unifracArray(arg...)
-    	unifracTuple=Array(Float64, n, n)
+    	unifracTuple = Array(Float64, n, n)
     	return unifracTuple
     end
-    if VAW==true
-        unifracs =ntuple(unifracArray::Function,length(alpha)+2);
+    if VAW == true
+        unifracs = ntuple(unifracArray::Function,length(alpha)+2);
     else
-        unifracs =ntuple(unifracArray::Function,length(alpha)+1);
+        unifracs = ntuple(unifracArray::Function,length(alpha)+1);
     end
 
-    nameList=Array(AbstractString, length(alpha))
+    nameList = Array(AbstractString, length(alpha))
     for i = 1:length(alpha)
         nameList[i] = join(["d_", alpha[i]])
     end
-    if VAW==true
-        unifracs=Dict(zip(["d_UW","d_VAW",nameList], unifracs))
+    if VAW == true
+        unifracs = Dict(zip(["d_UW","d_VAW", nameList], unifracs))
         fill!(unifracs["d_VAW"], 0.0)
     else
-        unifracs=Dict(zip(["d_UW", nameList], unifracs))
+        unifracs = Dict(zip(["d_UW", nameList], unifracs))
     end
 
 
   	# Check OTU name consistency
-    otuTableName=[]
-    for i=1:length(otuTable[1,1:end])
-        push!(otuTableName,AbstractString(otuTable[1,i]))
+    otuTableName = []
+    for i=1:length(otuTable[1, 1:end])
+        push!(otuTableName, AbstractString(otuTable[1,i]))
     end
     #otuNames = squeeze(convert(Array{ASCIIString,2},string(int(otuTable[1,1:end])),1)
     countIdex = 0
@@ -168,7 +158,7 @@ function GUniFrac(args...; otuTableFile = "",
             if VAW==true
                 ind2 = []
                 append!(ind2, find(all(mi .!= mt,2)))
-                w = br_len2 .* (cum1 + cum2) ./ sqrt(abs(mi .* (mt - mi)))
+                w = br_len2 .* (cum1 + cum2) ./ sqrt(mi .* (mt - mi))
                 #w = br_len2 .* (cum1 +cum2) ^ alpha[k]
                 unifracs["d_VAW"][i, j] = unifracs["d_VAW"][j,i] = sum(diff[ind2].*w[ind2])/sum(w[ind2])
             end
@@ -184,7 +174,7 @@ function GUniFrac(args...; otuTableFile = "",
         end
         unifracs["d_UW"][isnan(unifracs["d_UW"])]=0.0
         for k = 1:length(alpha)
-            unifracs[[join(["d_",alpha[k]])]][isnan(unifracs[[join(["d_",alpha[k]])]])]=0.0
+            unifracs[[join(["d_",alpha[k]])]][isnan(unifracs[[join(["d_",alpha[k]])]])] = 0.0
         end
         if VAW == true
             unifracs["d_VAW"][isnan(unifracs["d_VAW"])]=0.0
