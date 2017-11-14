@@ -1,4 +1,4 @@
-The PhylogeneticDistance.jl.jl package is licensed under the MIT "Expat" License:
+The PhylogeneticDistance.jl package is licensed under the MIT "Expat" License:
 
 > Copyright (c) 2017: Jing Zhai.
 >
