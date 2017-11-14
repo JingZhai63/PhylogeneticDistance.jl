@@ -43,7 +43,7 @@ In 2012, a generalized UniFrac version, which unifies the weighted and unweighte
 
 Kernel matrix is a positive definite matrix transformed from the UniFrac distance matrix using
 
-$\bf{K} = -\dfrac{1}{2}(\bf{I}-\dfrac{11'}{n}\bf{D^2}\dfrac{11'}{n})$
+$\bf{K} = -\dfrac{1}{2}(\bf{I}-\dfrac{11'}{n})\bf{D^2}(\dfrac{11'}{n})$
 
 # Specify path and file name for count table
 
