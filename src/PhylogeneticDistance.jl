@@ -11,8 +11,8 @@ export
        foo_reorder,
        bar_reorder,
        neworder_phylo,
-       reorderPhylo,
-       DropTip,
+#       reorderPhylo,
+#       DropTip,
        isRooted,
        GUniFrac
        # ,
@@ -25,9 +25,9 @@ include("node_depth.jl")
 include("foo_reorder.jl")
 include("bar_reorder.jl")
 include("neworder_phylo.jl")
-include("reorderPhylo.jl")
+# include("reorderPhylo.jl")
 include("isRooted.jl")
-include("DropTip.jl")
+# include("DropTip.jl")
 include("GUniFrac.jl")
 # include("KernelMatrix.jl")
 

@@ -13,12 +13,12 @@ function DropTip(args...; phy::Phylo=tree,
         xy = locator()
         nToDrop = length(xy["x"])
         tip = convert(Int, nToDrop)
-        lastPP = get("last_plot.phylo", envir = .PlotPhyloEnv)
+        lastPP = get("last_plot.phylo", envir = PlotPhyloEnv)
         for i = 1:nToDrop
             d = sqrt(xy["x"][i]-lastPP["xx"]^2+(xy["y"][i]-lastPP["yy"])^2)
             tip[i] = indmin(d)
         end
-    else 
+    else
         if typeof(tip)==String
             tip = findin(phy["tip_label"],tip)
         end
@@ -53,8 +53,8 @@ function DropTip(args...; phy::Phylo=tree,
     if subtree == true
         trim_internal = true
         tr = reorder(phy, "postorder")
-        N = ccall((:node_depth, "libc"), Array(Float64, 1), 
-            (Int, Int, Int, Int, Int, Int, Int), 
+        N = ccall((:node_depth, "libc"), Array(Float64, 1),
+            (Int, Int, Int, Int, Int, Int, Int),
             Ntip, Nnode, phy["edge"][:,1],phy["edge"][:,2],Nedge,
             convert(Array{Int64,1},zeros(Ntip+Nnode)),1)[6]
     end
@@ -76,6 +76,3 @@ function DropTip(args...; phy::Phylo=tree,
 # need to add other options for subtree etc.
     end
 end
-
-
-
