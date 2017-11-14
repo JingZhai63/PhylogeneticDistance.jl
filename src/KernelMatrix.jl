@@ -22,10 +22,9 @@ R"ToPSD <- function(distance, frobenius = FALSE){
 }"
 
 
-function KernelMatrix(arg...; TableFile::String = "", treeFile::String = "",
+function KernelMatrix(arg...; tableFile::String = "", treeFile::String = "",
   out::String = "", format::String = "nwk", alpha::Array{Float64,1} = 1.0,
-  Dtype::String = "d_UW", Kernel::Bool = true, frobenius::Bool = true,
-  psd::Bool = true)
+  Dtype::String = "d_UW", Kernel::Bool = true, frobenius::Bool = true)
 
   tree = readNewick(filepath = treeFile, format = format)
   if Dtype = "d_VAW"

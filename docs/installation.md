@@ -11,6 +11,6 @@ Then you can use the following command to verify that the package has been insta
 
 ```julia
 julia> using PhylogeneticDistance
-julia> GUniFrac()
-GUniFrac (generic function with 1 method)
+julia> KernelMatrix()
+KernelMatrix (generic function with 1 method)
 ```
