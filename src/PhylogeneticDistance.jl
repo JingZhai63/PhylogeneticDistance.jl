@@ -1,4 +1,4 @@
-module PhylogeneticDistance.jl
+module PhylogeneticDistance
 
 import StatsBase
 using StatsBase
