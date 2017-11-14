@@ -6,8 +6,8 @@
 #  # UniFrac distances.
 #  ###############################################################
 
-function GUniFrac(args...; otuTableFile = "",
-	phy = thetree, alpha::Array{Float64,1} = Float64[],VAW::Bool = false)
+function GUniFrac(args...; otuTableFile::String = "",
+	phy = thetree, alpha::Array{Float64,1} = Float64[], VAW::Bool = false)
 
     if isRooted(phy = phy) == false
     	error("isRooted:wrongtpe\n", "# Rooted phylogenetic tree required!")
