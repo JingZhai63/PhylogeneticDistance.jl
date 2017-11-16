@@ -45,13 +45,16 @@ function KernelMatrix(arg...; tableFile::String = "", treeFile::String = "",
 
   if Kernel
     @rput D
+    @rput out
 
     if frobenius
       R"K <- ToPSD(distance = D, frobenius = TRUE)"
     else
-      R"K <- ToPSD(distance = D)";
+      R"K <- ToPSD(distance = D)"
     end
-    R"write.table(K, paste0("Kernel_", out ".csv"), row.names=F, col.names = F, sep=',')"
+    @rget K
+    writecsv(string("K_",out,".csv"), K)
+  #  R"write.table(K, paste0('Kernel_', out '.csv'), row.names = F, col.names = F, sep=',')"
     return K
   else
     writecsv(string("D_",out,".csv"), D)
