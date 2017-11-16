@@ -1,6 +1,6 @@
 using RCall
 
-R"require(OpenMx)"
+# R"require(OpenMx)"
 R"ToPSD <- function(distance, frobenius = FALSE){
   DistanceMatrix <- as.matrix(distance)
   N <- dim(DistanceMatrix)[1]
@@ -16,7 +16,7 @@ R"ToPSD <- function(distance, frobenius = FALSE){
   evecK = as.matrix(eigen(K)$vector)
   evalK = as.vector(abs(eigen(K)$values))
   evalK[evalK < 1e-4] = 1e-4
-  diagK = vec2diag(evalK)
+  diagK = diag(evalK)
   psdK = evecK %*% diagK %*% t(evecK)
   return(psdK)
 }"
