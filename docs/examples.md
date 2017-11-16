@@ -13,7 +13,7 @@ Open up a Julia session and type
 
 * setting working directory
 ```julia
-julia> cd("PhylogeneticDistance/docs/examples")
+julia> cd("/PATH/TO/USERS/.julia/v0.6/PhylogeneticDistance/docs/examples")
 ```
 
 * compute the psd kernel matrix in Frobenius unit
