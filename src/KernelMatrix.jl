@@ -27,7 +27,7 @@ function KernelMatrix(arg...; tableFile::String = "", treeFile::String = "",
   Dtype::String = "d_UW", Kernel::Bool = true, frobenius::Bool = true)
 
   tree = readNewick(filepath = treeFile, format = format)
-  if Dtype = "d_VAW"
+  if Dtype == "d_VAW"
     VAW = true
   else
     VAW = false
@@ -35,16 +35,17 @@ function KernelMatrix(arg...; tableFile::String = "", treeFile::String = "",
 
   Distance = GUniFrac(otuTableFile = TableFile, phy = tree, alpha = alpha, VAW = VAW)
 
-  if Dtype = "d_UW"
+  if Dtype == "d_UW"
     D = Distance[Dtype]
-  elseif Dtype = "d_alpha"
+  elseif Dtype == "d_alpha"
     D = Distance[[string("d_", alpha)]]
-  elseif Dtype = "d_VAW"
+  elseif Dtype == "d_VAW"
     D = Distance[Dtype]
   end
 
   if Kernel
     @rput D
+
     if frobenius
       R"K <- ToPSD(distance = D, frobenius = TRUE)"
     else
