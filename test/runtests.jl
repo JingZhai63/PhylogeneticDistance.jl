@@ -1,4 +1,4 @@
-using PhylogeneticDistance.jl
+using PhylogeneticDistance
 using Base.Test
 
 # write your own tests here
