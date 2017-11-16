@@ -23,7 +23,7 @@ R"ToPSD <- function(distance, frobenius = FALSE){
 
 
 function KernelMatrix(arg...; tableFile::String = "", treeFile::String = "",
-  out::String = "", format::String = "nwk", alpha::Array{Float64,1} = 1.0,
+  out::String = "", format::String = "nwk", alpha::Array{Float64,1} = [1.0],
   Dtype::String = "d_UW", Kernel::Bool = true, frobenius::Bool = true)
 
   tree = readNewick(filepath = treeFile, format = format)
@@ -33,7 +33,7 @@ function KernelMatrix(arg...; tableFile::String = "", treeFile::String = "",
     VAW = false
   end
 
-  Distance = GUniFrac(otuTableFile = TableFile, phy = tree, alpha = alpha, VAW = VAW)
+  Distance = GUniFrac(otuTableFile = tableFile, phy = tree, alpha = alpha, VAW = VAW)
 
   if Dtype == "d_UW"
     D = Distance[Dtype]
