@@ -3,11 +3,11 @@ function KernelMatrix(args...;UniFrac=theUniFrac)
 	N = size(UniFrac)[1]
 	D2 = UniFrac .^2
 
-    I0 = Array(Float64,N,N)
+    I0 = Array{Float64}(N,N)
     fill!(I0, 1.0)
     I = Diagonal(I0)
 
-    one = Array(Float64,N,1)
+    one = Array{Float64}(N,1)
     fill!(one, 1.0)
     one_t = transpose(one)
 
@@ -20,7 +20,7 @@ function KernelMatrix(args...;UniFrac=theUniFrac)
     #writedlm("dd",evecK)
     #pwd()
     #convert(Array{Float64, 2}, evecK)
-    evalK = abs(eigvals(K))
+    evalK = abs.(eigvals(K))
 		evalK[evalK.<1e-4]=1e-4
     #orderK= sort!(evalK)[1:2]
     #evalK[evalK .==orderK[1]] = min(1e-4,orderK[2]/2)

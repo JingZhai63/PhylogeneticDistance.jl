@@ -33,7 +33,7 @@ function GUniFrac(args...; otuTableFile::String = "",
     # Construct the returning array
     # d_UW: unweighted UniFrac, d_VAW: weighted UniFrac
     function unifracArray(arg...)
-    	unifracTuple = Array(Float64, n, n)
+    	unifracTuple = Array{Float64}(n, n)
     	return unifracTuple
     end
     if VAW == true
@@ -42,7 +42,7 @@ function GUniFrac(args...; otuTableFile::String = "",
         unifracs = ntuple(unifracArray::Function,length(alpha)+1);
     end
 
-    nameList = Array(AbstractString, length(alpha))
+    nameList = Array{AbstractString}(length(alpha))
     for i = 1:length(alpha)
         nameList[i] = join(["d_", alpha[i]])
     end
@@ -105,7 +105,7 @@ function GUniFrac(args...; otuTableFile::String = "",
 
 
  	#  Accumulate OTU proportions up the tree
-    cum = Array(Float64, nbr, n)    # Branch abundance matrix
+    cum = Array{Float64}(nbr, n)    # Branch abundance matrix
     for i = 1:ntip
 			inx = 1:length(edge2)
     	tip_loc = collect(1:length(edge2))[edge2 .== i][1]
@@ -128,7 +128,7 @@ function GUniFrac(args...; otuTableFile::String = "",
     end
 
   	# Calculate various UniFrac distances
-   	cum_ct = round((cum' .* row_sum)') 	# For VAW
+   	cum_ct = round.((cum' .* row_sum)') 	# For VAW
     fill!(unifracs["d_UW"], 0.0)
     for k = 1:length(alpha)
         fill!(unifracs[[join(["d_",alpha[k]])]], 0.0)
@@ -145,7 +145,7 @@ function GUniFrac(args...; otuTableFile::String = "",
             br_len2 = br_len[ind]
             mi = cum_ct[ind,i] + cum_ct[ind,j]
             mt = row_sum[i] + row_sum[j]
-            diff = abs((cum1 - cum2) ./ (cum1 +cum2))
+            diff = abs.((cum1 - cum2) ./ (cum1 +cum2))
 
             # Generalized UniFrac distance
             for k = 1:length(alpha)
@@ -169,15 +169,15 @@ function GUniFrac(args...; otuTableFile::String = "",
             append!(ind4, find(all(cum2 .>1e-10,2)))
             cum1[ind3]=1
             cum2[ind4]=1
-            unifracs["d_UW"][i, j] = unifracs["d_UW"][j,i] = sum(abs(cum1-cum2)./(cum1+cum2) .* br_len2)/ sum(br_len2)
+            unifracs["d_UW"][i, j] = unifracs["d_UW"][j,i] = sum(abs.(cum1-cum2)./(cum1+cum2) .* br_len2)/ sum(br_len2)
 #            unifracs["d_UW"][i, i] = 0.0
         end
-        unifracs["d_UW"][isnan(unifracs["d_UW"])]=0.0
+        unifracs["d_UW"][isnan.(unifracs["d_UW"])]=0.0
         for k = 1:length(alpha)
-            unifracs[[join(["d_",alpha[k]])]][isnan(unifracs[[join(["d_",alpha[k]])]])] = 0.0
+            unifracs[[join(["d_",alpha[k]])]][isnan.(unifracs[[join(["d_",alpha[k]])]])] = 0.0
         end
         if VAW == true
-            unifracs["d_VAW"][isnan(unifracs["d_VAW"])]=0.0
+            unifracs["d_VAW"][isnan.(unifracs["d_VAW"])]=0.0
         end
 
     end

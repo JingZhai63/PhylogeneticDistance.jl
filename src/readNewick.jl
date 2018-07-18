@@ -20,13 +20,13 @@ function readNewick(args...; filepath::String = "", format::String = "nwk")
         end
       end
 
-    edge = Array(Float64, count1 + count2, 2);
-    node_label = Array(String, count1, 1); # generate empty node_label vector
+    edge = Array{Float64}(count1 + count2, 2);
+    node_label = Array{String}(count1, 1); # generate empty node_label vector
     tip_label = String[];  # generate empty tip_label vector
 
     #ei = Float64[]
-    edge_length = Array(Float64, count1 + count2, 1);
-    ei = Array(Int64, count1+1, 1);
+    edge_length = Array{Float64}(count1 + count2, 1);
+    ei = Array{Int64}(count1+1, 1);
    # edge_length = Array(Float64,1)
 
     currnode = 1;
@@ -123,7 +123,7 @@ function readNewick(args...; filepath::String = "", format::String = "nwk")
     temInd = edge[:,:] .> 0
     edge[temInd[:, 2], 2] = edge[temInd[:, 2], 2] .+ Ntip
     edge[temInd[:, 1], 1] = edge[temInd[:, 1], 1] .+ Ntip
-    edge = abs(edge)
+    edge = abs.(edge)
 
     tree = ((edge), (Nnode), (tip_label), (edge_length), (node_label))
     tree  = Dict(zip(["edge", "Nnode", "tip_label", "edge_length", "node_label"], tree))
